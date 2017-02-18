@@ -70,7 +70,7 @@ function resolverFactory(target, options) {
         }
       }
 
-      return model[list ? 'findAll' : 'findOne'](findOptions);
+      return model[args.method || (list ? 'findAll' : 'findOne')](findOptions);
     }).then(function (result) {
       return options.after(result, args, context, info);
     });
