@@ -70,8 +70,13 @@ function resolverFactory(target, options) {
         }
       }
 
-      return model[args.method || (list ? 'findAll' : 'findOne')](findOptions);
+      if (typeof info.returnType.name !== 'undefined' && info.returnType.name.endsWith('Conn'))
+        return model['findAndCountAll'](findOptions);
+
+      return model[options.method || (list ? 'findAll' : 'findOne')](findOptions);
     }).then(function (result) {
+      if (typeof info.returnType.name !== 'undefined' && info.returnType.name.endsWith('Conn'))
+        result = {totalCount: result.count, nodes: result.rows};
       return options.after(result, args, context, info);
     });
   };

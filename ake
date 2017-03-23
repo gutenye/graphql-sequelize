@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+publish() {
+  npm publish --registry=https://registry.npmjs.org
+  cnpm sync @gutenye/graphql-sequelize
+  git commit -am 'publish'
+  git push
+}
+
+case $1 in
+  publish ) publish ;;
+esac
